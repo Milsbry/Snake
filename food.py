@@ -24,3 +24,6 @@ class Food(Turtle):
         self.random_y = random.randint(-int(self.screen.window_height() / 2 - 20),
                                        int(self.screen.window_height() / 2 - 20))
         self.goto(self.random_x, self.random_y)
+
+
+

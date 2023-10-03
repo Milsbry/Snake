@@ -51,10 +51,9 @@ class Snake:
         """Adds a new segment in the snake, can be used when the snake is being created for the first time, or when the
         snake needs to be extended."""
         self.position = position
-        print(self.position)
         self.current_segment = Turtle("square")
         self.current_segment.penup()
-        self.current_segment.goto(position)  # TODO figure out why this line is breaking the code
+        self.current_segment.goto(position)
         self.current_segment.color(self.snake_colour)
         self.seg_list.append(self.current_segment)
 
@@ -116,10 +115,9 @@ class Snake:
                 self.score_board.game_over()
 
             # Detects collision between snake head and current segment
-            # Must bypass head segment, otherwise gameover will always trigger
-            for segment in self.seg_list:
-                if segment == self.head:
-                    pass
-                elif self.head.distance(segment) < 10:
+            # Must bypass head segment, otherwise game over will always trigger
+            for segment in self.seg_list[1:]:
+                if self.head.distance(segment) < 10:
                     self.game_on = False
                     self.score_board.game_over()
+
