@@ -1,7 +1,6 @@
 from turtle import Screen, Turtle
 import time
 from food import Food
-from score_board import ScoreBoard
 
 # Creating constants for the snake head direction
 UP = 90
@@ -16,10 +15,7 @@ class Snake:
         """Creates any number of 'turtles' as new segments and sets them up in a line, so they can function as a
         snake for the snake mobile game"""
         self.screen = Screen()
-        self.score_board = ScoreBoard()  # Creates a scoreboard instance as an object
-        self.score_board.update_scoreboard()  # Creates the physical score board on the screen
         self.current_segment = None
-        self.game_on = True
         self.n_segments = n_segments
         self.screen.tracer(0)  # Stops the turtles animations until screen.refresh is called
         if seg_list is None:
@@ -85,41 +81,5 @@ class Snake:
         if self.head.heading() != UP:
             self.head.setheading(DOWN)
 
-    def snake_game(self):
-        """While the game is on, the all 'body' segments move to the position of the one before it in the list
-        (therefore in front) visually. The only exception is the head, which takes a new heading."""
-        while self.game_on:
-            self.screen.update()  # Ensures that the screen only updates after every segment has moved
-            for segment in range(len(self.seg_list) - 1, 0, -1):
-                new_x = self.seg_list[segment - 1].xcor()
-                new_y = self.seg_list[segment - 1].ycor()
-                self.seg_list[segment].goto(new_x, new_y)
-            self.seg_list[0].forward(20)
 
-            # Detects collision with food (from the Food class)
-            # TODO eventually change the below size so it's dynamic once food has been made modular
-            if self.head.distance(self.food) < 15:
-                self.food.refresh_food()  # Food takes on a new position
-                self.extend()  # Snake gains a new segment
-                self.score_board.increase_score()  # Updates the score
-               # self.score_board.update_high_score() # Checks whether the high score should be updated
-
-            time.sleep(self.speed)
-
-            if (
-                    self.head.xcor() > (int(self.screen.window_width() / 2 - 10)) or
-                    self.head.xcor() < (-int(self.screen.window_width() / 2 - 10)) or
-                    self.head.ycor() > (int(self.screen.window_height() / 2 - 10)) or
-                    self.head.ycor() < (-int(self.screen.window_height() / 2 - 10))
-            ):
-                self.game_on = False  # Collision with wall, end the game
-                self.score_board.game_over()
-
-
-            # Detects collision between snake head and current segment
-            # Must bypass head segment, otherwise game over will always trigger
-            for segment in self.seg_list[1:]:
-                if self.head.distance(segment) < 10:
-                    self.game_on = False
-                    self.score_board.game_over()
 
