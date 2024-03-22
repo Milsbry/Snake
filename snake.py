@@ -102,6 +102,7 @@ class Snake:
                 self.food.refresh_food()  # Food takes on a new position
                 self.extend()  # Snake gains a new segment
                 self.score_board.increase_score()  # Updates the score
+               # self.score_board.update_high_score() # Checks whether the high score should be updated
 
             time.sleep(self.speed)
 
@@ -113,6 +114,7 @@ class Snake:
             ):
                 self.game_on = False  # Collision with wall, end the game
                 self.score_board.game_over()
+
 
             # Detects collision between snake head and current segment
             # Must bypass head segment, otherwise game over will always trigger
