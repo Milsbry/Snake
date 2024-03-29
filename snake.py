@@ -1,6 +1,5 @@
 from turtle import Screen, Turtle
 import time
-from food import Food
 
 # Creating constants for the snake head direction
 UP = 90
@@ -9,11 +8,12 @@ LEFT = 180
 RIGHT = 0
 
 
-class Snake:
+class Snake(Turtle):
 
     def __init__(self, n_segments=3, start_coordinates=(0, 0), seg_list=None, snake_colour="white", speed=0.1):
         """Creates any number of 'turtles' as new segments and sets them up in a line, so they can function as a
         snake for the snake mobile game"""
+        super().__init__()
         self.screen = Screen()
         self.current_segment = None
         self.n_segments = n_segments
@@ -26,7 +26,6 @@ class Snake:
         self.x, self.y = start_coordinates
         self.create_snake()  # Create snake as default upon initialisation
         self.head = self.seg_list[0]
-        self.food = Food()
 
         # The below has the screen await an input, the keys are bound to the respective function that changes the snake
         # direction. this has to happen under init for the snake object created here to be linked correctly
@@ -40,7 +39,7 @@ class Snake:
         """Creates a new snake, the number of turtle segments in the snake is determined in the initialisation of the
         class."""
         for position in range(self.n_segments):
-            self.add_segment((self.x, self.y)) # segments go to the starting coordinates
+            self.add_segment((self.x, self.y))  # segments go to the starting coordinates
             self.x -= 20  # The next segment should be next to the first, move it along the width of the segment
 
     def add_segment(self, position):
@@ -63,6 +62,16 @@ class Snake:
         # the list (excluding the snake head), this means the second to last segment will move, but the last segment
         # Will not. When the screen refreshes this means the segments will be in a line.
 
+    def reset(self):
+        """Sets the snake to the starting position with 3 segments."""
+        for seg in self.seg_list:
+            seg.reset()
+        self.x = -60 # This needs to be reset, otherwise each time the game is replayed, the new snake is seen as new
+        # segments
+        self.seg_list.clear()
+        self.create_snake()
+        self.head = self.seg_list[0]
+
     # The functions below dictate how the head of the snake moves, the heading method returns the snakes current heading
     # the if statements ensure the snake cannot turn in the opposite direction that it's currently going.
     def up(self):
@@ -80,6 +89,3 @@ class Snake:
     def down(self):
         if self.head.heading() != UP:
             self.head.setheading(DOWN)
-
-
-
