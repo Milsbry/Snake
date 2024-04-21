@@ -1,7 +1,6 @@
 from turtle import Turtle, Screen
 import random
 
-
 # Our food class inherits everything from the turtle class
 class Food(Turtle):
 

@@ -15,7 +15,7 @@ def restart_question():
 screen = Screen()
 screen.setup(width=800, height=600)
 screen.bgcolor("black")
-screen.title("Amelia's Snake Game")
+screen.title("Milsbry's Snake Game")
 
 # Create an instance of the Snake class
 snake = Snake()
@@ -38,7 +38,6 @@ while game_on:
     snake.seg_list[0].forward(20)
 
     # Detects collision with food (from the Food class)
-    # TODO eventually change the below size so it's dynamic once food has been made modular
     if snake.head.distance(food) < 15:
         food.refresh_food()  # Food takes on a new position
         snake.extend()  # Snake gains a new segment
